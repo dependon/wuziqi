@@ -38,16 +38,17 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 添加菜单
     QMenu *gameMenu = menuBar()->addMenu(tr("Game")); // menuBar默认是存在的，直接加菜单就可以了
-    QAction *actionPVP = new QAction("Person VS Person", this);
+    QAction *actionPVP = new QAction(tr("Person VS Person"), this);
     connect(actionPVP, SIGNAL(triggered()), this, SLOT(initPVPGame()));
     gameMenu->addAction(actionPVP);
 
-    QAction *actionPVE = new QAction("Person VS Computer", this);
+    QAction *actionPVE = new QAction(tr("Person VS Computer"), this);
     connect(actionPVE, SIGNAL(triggered()), this, SLOT(initPVEGame()));
     gameMenu->addAction(actionPVE);
 
     // 开始游戏
     initGame();
+    setWindowTitle(tr("QtWuziqi"));
 }
 
 MainWindow::~MainWindow()
@@ -131,13 +132,14 @@ void MainWindow::paintEvent(QPaintEvent *event)
             qDebug() << "win";
             game->gameStatus = WIN;
             QSound::play(WIN_SOUND);
+            QMessageBox::StandardButton btnValue;
             QString str;
-            if (game->gameMapVec[clickPosRow][clickPosCol] == 1)
-                str = "white player";
-            else if (game->gameMapVec[clickPosRow][clickPosCol] == -1)
-                str = "black player";
-            QMessageBox::StandardButton btnValue = QMessageBox::information(this, "congratulations", str + " win!");
-
+            if (game->gameMapVec[clickPosRow][clickPosCol] == 1) {
+                str = tr("white player win!");
+            } else if (game->gameMapVec[clickPosRow][clickPosCol] == -1) {
+                str = tr("black player win!");
+            }
+            btnValue = QMessageBox::information(this, tr("congratulations"), str);
             // 重置游戏状态，否则容易死循环
             if (btnValue == QMessageBox::Ok) {
                 game->startGame(game_type);

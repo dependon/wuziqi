@@ -21,8 +21,13 @@ HEADERS  += mainwindow.h \
 
 RESOURCES += \
     resource.qrc
+TRANSLATIONS += \
+    translations/QtWuziqi_zh_CN.ts
 
 APPSHAREDIR = /usr/share/QtWuziqi
+
+translations.path = $$APPSHAREDIR/translations
+translations.files = $$PWD/translations/*.qm
 
 unix:!android: target.path = /usr/bin
 
@@ -32,4 +37,4 @@ desktop.files = $$PWD/install/QtWuziqi.desktop
 icon.path =/usr/share/icons
 icon.files=$$PWD/install/QtWuziqi.png
 
-!isEmpty(target.path): INSTALLS += target icon desktop
+!isEmpty(target.path): INSTALLS += target icon desktop translations
